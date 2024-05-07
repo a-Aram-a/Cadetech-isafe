@@ -7,7 +7,7 @@ export interface IUser {
 }
 
 export const useAuthStore = defineStore('auth', () => {
-    const user = ref<IUser | null>(useCookie('user').value as any)
+    const user = ref<IUser | null>(useCookie('user').value ?? null as any)
     const isLoggedIn = computed(() => user.value !== null)
 
     function storeUser(usr: IUser) {
@@ -26,9 +26,15 @@ export const useAuthStore = defineStore('auth', () => {
         localStorage.setItem('token', response.data.token)
     }
 
+    async function register(email: string, password: string) {
+        const response = await $api.post('/auth/register', { email, password })
+    }
+
+
     return {
         user,
         isLoggedIn,
-        login
+        login,
+        register
     }
 })
