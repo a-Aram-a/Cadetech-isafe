@@ -1,0 +1,130 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
+
+:root {
+    --layout-page-x-padding: 64px;
+    --layout-section-padding-top: 72px;
+    --layout-section-margin-top: 72px;
+    --layout-section-inner-margin-top: 36px;
+
+    @media (max-width: 1280px) {
+        --layout-page-x-padding: 16px;
+        --layout-section-padding-top: 32px;
+        --layout-section-margin-top: 32px;
+        --layout-section-inner-margin-top: 22px;
+    }
+}
+
+.layout-page-x-padding {
+    padding-left: var(--layout-page-x-padding);
+    padding-right: var(--layout-page-x-padding);
+}
+
+.layout-section-padding-top {
+    padding-top: var(--layout-section-padding-top);
+}
+
+.layout-section-margin-top {
+    margin-top: var(--layout-section-margin-top);
+}
+
+.layout-section-inner-margin-top {
+    margin-top: var(--layout-section-inner-margin-top);
+}
+
+.text-heading-1 {
+    font-size: 48px;
+    font-weight: 600;
+
+    @media (max-width: 640px) {
+        font-size: 24px;
+    }
+}
+
+.text-heading-2 {
+    font-size: 20px;
+    font-weight: 600;
+
+    @media (max-width: 640px) {
+        font-size: 16px;
+        font-weight: bold;
+    }
+}
+
+.text-body-1 {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.text-body-2 {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.text-button-1 {
+    font-size: 16px;
+    font-weight: 500;
+
+    @media (max-width: 640px) {
+        font-size: 12px;
+    }
+}
+
+.text-button-2 {
+    font-size: 20px;
+    font-weight: 500;
+
+    @media (max-width: 640px) {
+        font-size: 16px;
+    }
+}
+
+.text-caption-1 {
+    font-size: 20px;
+    font-weight: 500;
+
+    @media (max-width: 640px) {
+        font-size: 16px;
+    }
+}
+
+.text-caption-2 {
+    font-size: 16px;
+    font-weight: 500;
+
+    @media (max-width: 640px) {
+        font-size: 12px;
+    }
+}
+
+body {
+    @apply text-text-primary;
+    @apply bg-background-primary;
+    @apply text-body-1;
+    @apply font-manrope;
+}
+
+#root {
+    max-width: 1920px;
+    margin: 0 auto;
+}
+
+.layout-page-width {
+    width: 1280px;
+    margin: 0 auto;
+
+    @media (max-width: 1280px) {
+        width: 100%;
+    }
+}
+
+.nav-link {
+    @apply text-button-1;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
