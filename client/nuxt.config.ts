@@ -13,7 +13,7 @@ export default defineNuxtConfig({
   },
   routeRules: {
     "/api/**": {
-      proxy: 'http://server:3001/**'
+      proxy: 'http://server:4000/**'
     },
   },
   vite: {

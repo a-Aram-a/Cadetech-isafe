@@ -20,13 +20,13 @@ services:
     build:
       dockerfile: Dockerfile.dev
     ports:
-      - "3001:3001"
+      - "4000:4000"
     volumes:
       - ./server:/server
       - node_modules_server:/server/node_modules/
     environment:
       - NODE_ENV=development
-      - PORT=3001
+      - PORT=4000
 
   db:
     ports:
