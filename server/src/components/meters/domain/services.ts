@@ -1,3 +1,7 @@
+import grpc  from '@grpc/grpc-js';
+import device_grpc from "@chirpstack/chirpstack-api/api/device_grpc_pb"
+import device_pb from "@chirpstack/chirpstack-api/api/device_pb"
+
 import Meter from "../data-access/model/meter";
 import meterMessage from "../data-access/model/meterMessage";
 
@@ -13,8 +17,8 @@ export async function getMetersByUser(userId: string) {
 }
 
 
-export async function getMeterBySerial(serial: string) {
-    const meter = await Meter.findOne({ serial });
+export async function getMeterByDevEUI(devEUI: string) {
+    const meter = await Meter.findOne({ devEUI });
     return meter
 }
 
@@ -44,4 +48,9 @@ export async function getMeterMessagesByMeterId(id: string) {
 export async function createMeterMessage(message: any) {
     const newMessage = new meterMessage(message);
     return await newMessage.save();
+}
+
+
+export async function getApplicationsByTenantId(tenantId: string) {
+
 }

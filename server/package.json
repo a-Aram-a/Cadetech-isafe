@@ -23,6 +23,8 @@
     "typescript": "^5.4.5"
   },
   "dependencies": {
+    "@chirpstack/chirpstack-api": "^4.8.1",
+    "@grpc/grpc-js": "^1.10.8",
     "bcrypt": "^5.1.1",
     "cookie-parser": "^1.4.6",
     "dotenv": "^16.4.5",

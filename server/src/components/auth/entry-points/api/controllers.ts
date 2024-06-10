@@ -1,5 +1,5 @@
 import { ApiError } from "../../../../libraries/errors";
-import { register, login, refresh } from "../../domain/services";
+import { register, login, refresh, logout, updateUser } from "../../domain/services";
 
 
 export const loginController = async (req: any, res: any, next: any) => {
@@ -61,6 +61,39 @@ export const refreshController = async (req: any, res: any, next: any) => {
         })
 
         return res.json({ token });
+    } catch (error) {
+        next(error)
+    }
+}
+
+export const logoutController = async (req: any, res: any, next: any) => {
+    try {
+        const refreshToken = req.cookies.refreshToken;
+
+        await logout(refreshToken)
+
+        res.clearCookie('refreshToken')
+
+        return res.json({ message: 'Logout successful' })
+    } catch (error) {
+        next(error)
+    }
+}
+
+export const updateUserController = async (req: any, res: any, next: any) => {
+    try {
+        const userId = req.params.id
+        const data = req.body
+        if (!userId) {
+            throw new ApiError(400, 'User id is required')
+        }
+        if(!data || Object.keys(data).length === 0) {
+            throw new ApiError(400, 'User data is required')
+        }
+
+        const user = await updateUser(userId, data);
+
+        res.json(user);
     } catch (error) {
         next(error)
     }

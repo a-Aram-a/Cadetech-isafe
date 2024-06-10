@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
 
 const meterSchema = new Schema({
-    serial: {
+    devEUI: {
         type: String,
         required: true,
         unique: true
@@ -12,11 +12,11 @@ const meterSchema = new Schema({
     },
     description: {
         type: String,
-        required: true
+        required: false
     },
     type: {
         type: String,
-        enum: ['virtual', 'isafe'],
+        enum: ['virtual', 'smart-as0101', 'isafe'],
         default: 'virtual'
     },
     address: {

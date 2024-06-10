@@ -31,7 +31,7 @@ export async function jwtMiddleware(req: any, res: any, next: any) {
 
 
 export function adminMiddleware(req: any, res: any, next: any) {
-    if (req.user.role !== 'admin') {
+    if (!req.user || req.user.role !== 'admin') {
         throw new ApiError(403, 'Unauthorized')
     }
     next()

@@ -46,7 +46,7 @@ export async function login(email: string, password: string) {
     }
 }
 
-export async function register(email: string, password: string) {
+export async function register(email: string, password: string, role: string = 'user') {
     if (!email || !password) {
         throw new ApiError(400, 'Email and password are required')
     }
@@ -61,7 +61,8 @@ export async function register(email: string, password: string) {
 
     const newUser = new User({
         email,
-        password: hashedPassword
+        password: hashedPassword,
+        role
     })
 
     return await newUser.save()
@@ -95,4 +96,34 @@ export async function refresh(refreshToken: string) {
     await refToken.save()
 
     return { token, refreshToken: newRefreshToken }
+}
+
+
+export async function logout(refreshToken: string) {
+    const refToken = await RefreshToken.findOne({ token: refreshToken })
+
+    if (!refToken) {
+        throw new ApiError(401, 'Invalid refresh token')
+    }
+
+    if (refToken.revoked) {
+        throw new ApiError(401, 'Refresh token revoked')
+    }
+
+    if (refToken.expiresAt < new Date()) {
+        throw new ApiError(401, 'Refresh token expired')
+    }
+
+    refToken.revoked = true
+    return await refToken.save()
+}
+
+
+export async function updateUser(userId: string, data: any) {
+    const user = await User.findById(userId)
+    if (!user) {
+        throw new ApiError(404, 'User not found')
+    }
+    const updatedUser = await User.findByIdAndUpdate(userId, data, { new: true })
+    return updatedUser
 }

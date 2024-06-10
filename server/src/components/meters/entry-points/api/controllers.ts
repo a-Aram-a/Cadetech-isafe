@@ -1,6 +1,6 @@
 import { ApiError } from '../../../../libraries/errors';
 import User from '../../../auth/data-access/model/user';
-import { getMeters, getMetersByUser, getMeterById, createMeter, deleteMeterById, createMeterMessage, getMeterMessagesByMeterId, getMeterBySerial } from '../../domain/services'
+import { getMeters, getMetersByUser, getMeterById, createMeter, deleteMeterById, createMeterMessage, getMeterMessagesByMeterId, getMeterByDevEUI } from '../../domain/services'
 import meterMessageEmitter from '../message-queue/meterMessage';
 
 
@@ -8,6 +8,7 @@ export async function getMetersController(req: any, res: any, next: any) {
     try {
         if (req.user.role !== 'admin') {
             const meters = await getMetersByUser(req.user._id);
+            console.log(meters)
             res.json(meters);
         } else {
             const meters = await getMeters();
@@ -20,7 +21,7 @@ export async function getMetersController(req: any, res: any, next: any) {
 
 export async function createMeterController(req: any, res: any, next: any) {
     try {
-        const serial = req.body.serial
+        const devEUI = req.body.devEUI
         const name = req.body.name
         const description = req.body.description
         const type = req.body.type
@@ -28,16 +29,12 @@ export async function createMeterController(req: any, res: any, next: any) {
         const user = req.body.user
 
 
-        if (!serial) {
-            throw new ApiError(400, 'Serial is required')
+        if (!devEUI) {
+            throw new ApiError(400, 'DevEUI is required')
         }
 
         if (!name) {
             throw new ApiError(400, 'Name is required')
-        }
-
-        if (!description) {
-            throw new ApiError(400, 'Description is required')
         }
 
         if (!type) {
@@ -55,13 +52,13 @@ export async function createMeterController(req: any, res: any, next: any) {
             }
         }
 
-        const existingMeter = await getMeterBySerial(serial);
+        const existingMeter = await getMeterByDevEUI(devEUI);
         if (existingMeter) {
-            throw new ApiError(400, 'Meter with this serial already exists')
+            throw new ApiError(400, 'Meter with this DevEUI already exists')
         }
 
         const meter = await createMeter({
-            serial,
+            devEUI,
             name,
             description,
             type,
@@ -161,17 +158,17 @@ export async function createMeterMessageController(req: any, res: any, next: any
 }
 
 
-export async function createMeterMessageBySerialController(req: any, res: any, next: any) {
+export async function chirpStackCallbackController(req: any, res: any, next: any) {
     try {
-        const serial = req.params.serial
-        const message = req.body.message
-        if (!serial) {
-            throw new ApiError(400, 'Serial is required')
-        }
+        const message = JSON.stringify(req.body)
+        const devEUI = req.body?.deviceInfo?.devEui
         if (!message) {
             throw new ApiError(400, 'Message is required')
         }
-        const meter = await getMeterBySerial(serial);
+        if (!devEUI) {
+            throw new ApiError(400, 'DevEUI is required')
+        }
+        const meter = await getMeterByDevEUI(devEUI);
         if (!meter) {
             throw new ApiError(400, 'Meter not found')
         }

@@ -4,37 +4,51 @@ export interface IUser {
     _id: string
     email: string
     role: string
+    tenantId: string
 }
 
 export const useAuthStore = defineStore('auth', () => {
-    const user = ref<IUser | null>(useCookie('user').value ?? null as any)
-    const isLoggedIn = computed(() => user.value !== null)
-
-    function storeUser(usr: IUser) {
-        user.value = usr
-        const newCookie = useCookie('user', {
-            maxAge: 60 * 24 * 28,
-            secure: false
-        })
-        newCookie.value = JSON.stringify(usr)
-    }
+    const user = useCookie<IUser | undefined>('user')
+    const accessToken = useCookie<string | undefined>('token')
+    const isLoggedIn = computed(() => user.value !== undefined)
 
     async function login(email: string, password: string) {
         const response = await $api.post('/auth/login', { email, password })
 
-        storeUser(response.data.user)
-        localStorage.setItem('token', response.data.token)
+        user.value = response.data.user
+        accessToken.value = response.data.token
     }
 
     async function register(email: string, password: string) {
         const response = await $api.post('/auth/register', { email, password })
     }
 
+    async function logout() {
+        try {
+            const response = await $api.post('/auth/logout')
+        } catch (e) {
+            throw e
+        } finally {
+            user.value = undefined
+            accessToken.value = undefined
+        }
+    }
+
+    async function updateUser(id: string, data: any) {
+        const response = await $api.patch(`/auth/users/${id}`, data)
+        if(response.data._id === user.value?._id) {
+            user.value = response.data
+        }
+        return response.data
+    }
 
     return {
         user,
         isLoggedIn,
         login,
-        register
+        register,
+        logout,
+
+        updateUser
     }
 })

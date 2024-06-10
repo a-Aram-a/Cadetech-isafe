@@ -34,11 +34,11 @@ async function onSubmit(e: any) {
         </div>
         <div class="flex flex-col gap-2">
             <label>Password</label>
-            <input type="text" name="password" class="p-2 rounded-xl border" required placeholder="Enter your password">
+            <input type="password" name="password" class="p-2 rounded-xl border" required placeholder="Enter your password">
         </div>
         <div class="flex flex-col gap-2">
             <label>Repeat password</label>
-            <input type="text" name="repeatPassword" class="p-2 rounded-xl border" required placeholder="Enter your password again">
+            <input type="password" name="repeatPassword" class="p-2 rounded-xl border" required placeholder="Enter your password again">
         </div>
         <button class="btn btn-primary">Register</button>
     </form>

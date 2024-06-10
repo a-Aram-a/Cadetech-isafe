@@ -128,3 +128,24 @@ body {
         text-decoration: underline;
     }
 }
+
+.common-button--blue {
+    @apply text-background-secondary;
+    @apply bg-text-primary;
+    @extend .text-button-1;
+    @apply border-2;
+    @apply border-solid;
+    @apply border-background-primary;
+
+    padding: 4px 10px;
+    border-radius: 8px;
+    transition: 0.25s all;
+    cursor: pointer;
+    user-select: none;
+
+    &:hover {
+        @apply bg-transparent;
+        @apply text-text-primary;
+        @apply border-text-primary;
+    }
+}

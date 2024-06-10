@@ -27,7 +27,7 @@ async function onSubmit(e: any) {
         </div>
         <div class="flex flex-col gap-2">
             <label>Password</label>
-            <input type="text" name="password" class="p-2 rounded-xl border" required placeholder="Enter your password">
+            <input type="password" name="password" class="p-2 rounded-xl border" required placeholder="Enter your password">
         </div>
         <button class="btn btn-primary">Login</button>
     </form>

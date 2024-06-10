@@ -10,9 +10,9 @@
         <div class="mt-12 flex flex-col gap-6 items-center">
             <p class="text-heading-2">Login</p>
             <LoginForm />
-            <!--<br>
+            <br>
             <p class="text-heading-2">Register</p>
-             <RegisterForm /> -->
+            <RegisterForm />
         </div>
     </article>
 </template>
