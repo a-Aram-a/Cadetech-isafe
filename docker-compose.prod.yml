@@ -19,3 +19,7 @@ services:
     environment:
       - NODE_ENV=production
       - PORT=4000
+
+  db:
+    ports:
+      - "27017:27017"
